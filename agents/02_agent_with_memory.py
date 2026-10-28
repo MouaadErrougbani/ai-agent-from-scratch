@@ -1,3 +1,5 @@
+# Agent with file memory
+
 import os 
 from typing import TypedDict, List, Union
 from dotenv import load_dotenv
@@ -67,3 +69,14 @@ while True:
     state = agent.invoke(state)
 
     print('\nAI: ', state["messages"][-1].content)
+
+with open("logging.md", "w") as file: 
+    file.write("Your Conversation log: \n---\n")
+    for message in state["messages"]:
+        if isinstance(message, HumanMessage):
+            file.write(f"User: {message.content}\n")
+        elif isinstance(message, AIMessage):
+            file.write(f"Assistant: {message.content}\n")
+    file.write("---")
+
+print("Conversation saved to logging.txt")
